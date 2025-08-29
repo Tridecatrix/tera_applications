@@ -128,6 +128,8 @@ install_spark() {
 }
 
 benchmark_dependencies() {
+  export JAVA_HOME="/usr/lib/jvm/java-8-openjdk-amd64"
+
   if [[ ! -n $(find "${HOME}"/.m2 -name "wikixmlj*") ]]
   then 
     git clone  https://github.com/synhershko/wikixmlj.git >> "${COMPILE_OUT}" 2>&1
@@ -206,10 +208,10 @@ do
       build_spark
       ;;
     b)
-      create_cgexec
+      # create_cgexec
       benchmark_dependencies
       build_benchmarks
-      build_spark_tpcds
+      # build_spark_tpcds
       ;;
     i)
       create_cgexec
