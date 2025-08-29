@@ -1,0 +1,83 @@
+All configuration checks passed.
+
+=====================================================================
+
+EXPERIMENTS
+
+      WORKLOAD : PageRank
+      ITERATION: ./run.sh: line 296: 437440 Killed                  ./mem_usage.sh "${RUN_DIR}"/mem_usage.txt "${NUM_EXECUTORS}"
+./run.sh: line 296: 454375 Killed                  ./mem_usage.sh "${RUN_DIR}"/mem_usage.txt "${NUM_EXECUTORS}"
+./run.sh: line 296: 472766 Killed                  ./mem_usage.sh "${RUN_DIR}"/mem_usage.txt "${NUM_EXECUTORS}"
+./run.sh: line 296: 489995 Killed                  ./mem_usage.sh "${RUN_DIR}"/mem_usage.txt "${NUM_EXECUTORS}"
+
+
+    Benchmark Time Elapsed: 0h:32m:24s
+
+=====================================================================
+
+All configuration checks passed.
+
+=====================================================================
+
+EXPERIMENTS
+
+      WORKLOAD : PageRank
+      ITERATION: ./run.sh: line 296: 506202 Killed                  ./mem_usage.sh "${RUN_DIR}"/mem_usage.txt "${NUM_EXECUTORS}"
+./run.sh: line 296: 522187 Killed                  ./mem_usage.sh "${RUN_DIR}"/mem_usage.txt "${NUM_EXECUTORS}"
+./run.sh: line 296: 540968 Killed                  ./mem_usage.sh "${RUN_DIR}"/mem_usage.txt "${NUM_EXECUTORS}"
+./run.sh: line 296: 559376 Killed                  ./mem_usage.sh "${RUN_DIR}"/mem_usage.txt "${NUM_EXECUTORS}"
+
+
+    Benchmark Time Elapsed: 0h:39m:39s
+
+=====================================================================
+
+All configuration checks passed.
+
+=====================================================================
+
+EXPERIMENTS
+
+      WORKLOAD : PageRank
+      ITERATION: ./run.sh: line 296: 577116 Killed                  ./mem_usage.sh "${RUN_DIR}"/mem_usage.txt "${NUM_EXECUTORS}"
+./run.sh: line 296: 594909 Killed                  ./mem_usage.sh "${RUN_DIR}"/mem_usage.txt "${NUM_EXECUTORS}"
+./run.sh: line 296: 611971 Killed                  ./mem_usage.sh "${RUN_DIR}"/mem_usage.txt "${NUM_EXECUTORS}"
+./run.sh: line 296: 629992 Killed                  ./mem_usage.sh "${RUN_DIR}"/mem_usage.txt "${NUM_EXECUTORS}"
+
+
+    Benchmark Time Elapsed: 0h:32m:6s
+
+=====================================================================
+
+All configuration checks passed.
+
+=====================================================================
+
+EXPERIMENTS
+
+      WORKLOAD : PageRank
+      ITERATION: ./run.sh: line 296: 647467 Killed                  ./mem_usage.sh "${RUN_DIR}"/mem_usage.txt "${NUM_EXECUTORS}"
+./run.sh: line 296: 664771 Killed                  ./mem_usage.sh "${RUN_DIR}"/mem_usage.txt "${NUM_EXECUTORS}"
+ERROR: No stack counts found
+(standard_in) 1: syntax error
+(standard_in) 1: syntax error
+./run.sh: line 296: 684385 Killed                  ./mem_usage.sh "${RUN_DIR}"/mem_usage.txt "${NUM_EXECUTORS}"
+ERROR: No stack counts found
+(standard_in) 1: syntax error
+(standard_in) 1: syntax error
+Terminated
+All configuration checks passed.
+
+=====================================================================
+
+EXPERIMENTS
+
+      WORKLOAD : PageRank
+      ITERATION: ./run.sh: line 296: 3730365 Killed                  ./mem_usage.sh "${RUN_DIR}"/mem_usage.txt "${NUM_EXECUTORS}"
+ERROR: No stack counts found
+(standard_in) 1: syntax error
+(standard_in) 1: syntax error
+./run.sh: line 296: 3733239 Killed                  ./mem_usage.sh "${RUN_DIR}"/mem_usage.txt "${NUM_EXECUTORS}"
+ERROR: No stack counts found
+(standard_in) 1: syntax error
+(standard_in) 1: syntax error

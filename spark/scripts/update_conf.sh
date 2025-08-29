@@ -12,16 +12,17 @@
 #
 ###################################################
 
-. ./conf.sh
+CONF_FILE="./conf.sh"
 
 # Print error/usage script message
 usage() {
     echo
     echo "Usage:"
-    echo -n "      $0 [option ...] [-b-h]"
+    echo -n "      $0 [option ...] [-b-h-c]"
     echo
     echo "Options:"
     echo "      -b  Custom Benchmark"
+    echo "      -c  Path to conf.sh file"
     echo "      -h  Show usage"
     echo
 
@@ -84,12 +85,14 @@ update_spark_bench() {
 	sed -i '/NUM_OF_PARTITIONS/c\NUM_OF_PARTITIONS='"${NUM_OF_PARTITIONS}" env.sh
 }
 
-# Check for the input arguments
-while getopts ":b:h" opt
+while getopts ":b:hc:" opt
 do
     case "${opt}" in
         b)
             CUSTOM_BENCHMARK=${OPTARG}
+            ;;
+        c)
+            CONF_FILE=${OPTARG}
             ;;
         h)
             usage
@@ -99,6 +102,8 @@ do
             ;;
     esac
 done
+
+. "${CONF_FILE}"
 
 # Enter to spark configuration
 cd "${SPARK_DIR}"/conf || exit

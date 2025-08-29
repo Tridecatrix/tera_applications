@@ -43,9 +43,9 @@ DEV_SHFL=nvme1n1
 # Mount point for shuffle directory
 MNT_SHFL=/mnt/ssd1/adnan
 # Device for H2
-DEV_H2=nvme0n1
+DEV_H2=zram1
 # Mount point for H2 TeraHeap directory
-MNT_H2=/mnt/ssd0/adnan
+MNT_H2=/mnt/zrammnt1-zstd
 # Card segment size for H2
 CARD_SIZE=$((8 * 1024))
 # Region size for H2

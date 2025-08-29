@@ -12,11 +12,12 @@
 #
 ###################################################
 
-. ./conf.sh
-
 RUN_DIR=$1
 HEAP_SIZE=$2
 QUERY_NAME=$3
+CONF_FILE=$4
+
+. ./${CONF_FILE}
 
 "${SPARK_DIR}"/bin/spark-submit \
   --conf spark.sql.test.master=spark://${SPARK_MASTER}:7077 \

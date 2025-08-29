@@ -12,17 +12,46 @@
 #
 ###################################################
 
-set -x
+CONF_FILE="./conf.sh"
 
-. ./conf.sh
+usage() {
+    echo
+    echo "Usage:"
+    echo "      $0 [options ...] [-c conf.sh]"
+    echo "Options:"
+    echo "      -c  Path to conf.sh file"
+    echo "      -h  Show usage"
+    echo
+    exit 1
+}
+
+while getopts ":c:h" opt
+do
+    case "${opt}" in
+        c)
+            CONF_FILE=${OPTARG}
+            ;;
+        h)
+            usage
+            ;;
+        *)
+            usage
+            ;;
+    esac
+done
+
+. "${CONF_FILE}"
 
 ##
 # Description:
 #   Create a cgroup
 setup_cgroup() {
 	# Change user/group IDs to your own
-	sudo cgcreate -a kolokasis:carvsudo -t kolokasis:carvsudo -g memory:memlim
-	cgset -r memory.limit_in_bytes="$MEM_BUDGET" memlim
+	sudo cgcreate -a u7300623:sudo -t u7300623:sudo -g memory:memlim
+	# cgset -r memory.limit_in_bytes="$MEM_BUDGET" memlim
+	cgset -r memory.max="$MEM_BUDGET" memlim
+	sudo chmod o+w /sys/fs/cgroup/cgroup.procs
+	#sudo cgset -r memory.numa_stat=0 memlim
 }
 
 ##
@@ -64,7 +93,9 @@ cp ./configs/native/spark-defaults.conf "${SPARK_DIR}"/conf
 start_spark
 
 # Run benchmark and save output to tmp_out.txt
-run_cgexec "${SPARK_BENCH_DIR}"/"${BENCHMARKS}"/bin/gen_data.sh >> "${BENCH_LOG}" 2>&1
+for BENCHMARK in ${BENCHMARKS[@]}; do
+	run_cgexec "${SPARK_BENCH_DIR}"/"${BENCHMARK}"/bin/gen_data.sh >> "${BENCH_LOG}" 2>&1
+done
 
 stop_spark
 

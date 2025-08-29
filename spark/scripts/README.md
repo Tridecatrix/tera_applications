@@ -61,7 +61,6 @@ increase the dataset size.
 ```sh
 ./run.sh -n 1 -o <path/to/result/directory> -s
 ```
-
 ## Kill all background processes
 ```sh
 ./run.sh -k 

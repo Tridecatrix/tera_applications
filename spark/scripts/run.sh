@@ -12,7 +12,8 @@
 #
 ###################################################
 
-. ./conf.sh
+# Default config path
+CONF_SH="./conf.sh"
 
 #### Global Variables ####
 CUSTOM_BENCHMARK=false
@@ -36,6 +37,8 @@ usage() {
   echo "      -q  Run experiments with TPC-DS workloads"
   echo "      -j  Enable metrics for JIT compiler"
   echo "      -h  Show usage"
+  echo "      -k  Kill background processes"
+  echo "      -c  Config file"
   echo
 
   exit 1
@@ -61,8 +64,10 @@ build_async_profiler() {
 #   Create a cgroup
 setup_cgroup() {
 	# Change user/group IDs to your own
-	sudo cgcreate -a kolokasis:carvsudo -t kolokasis:carvsudo -g memory:memlim
-	cgset -r memory.limit_in_bytes="$MEM_BUDGET" memlim
+	sudo cgcreate -a u7300623:sudo -t u7300623:sudo -g memory:memlim
+	# cgset -r memory.limit_in_bytes="$MEM_BUDGET" memlim
+  cgset -r memory.max="$MEM_BUDGET" memlim
+  sudo chmod o+w /sys/fs/cgroup/cgroup.procs
   #sudo cgset -r memory.numa_stat=0 memlim
 }
 
@@ -92,7 +97,7 @@ start_spark() {
 stop_spark() {
   run_cgexec "${SPARK_DIR}"/sbin/stop-all.sh >> "${BENCH_LOG}" 2>&1
   #kill all the processes of Spark
-  xargs -a /sys/fs/cgroup/memory/memlim/cgroup.procs kill
+  xargs -a /sys/fs/cgroup/memlim/cgroup.procs kill
 }
 
 ##
@@ -157,7 +162,7 @@ printMsgIteration() {
 download_third_party() {
   if [ ! -d "system_util" ]
   then
-    git clone git@github.com:jackkolokasis/system_util.git >> "${BENCH_LOG}" 2>&1
+    git clone git@github.com:Tridecatrix/system_util.git >> "${BENCH_LOG}" 2>&1
   fi
 }
 
@@ -219,9 +224,12 @@ kill_watch() {
 }
 
 # Check for the input arguments
-while getopts ":n:o:ktspjfbqh" opt
+while getopts ":c:n:o:ktspjfbqh" opt
 do
   case "${opt}" in
+    c)
+      CONF_SH=${OPTARG}
+      ;;
     n)
       ITER=${OPTARG}
       ;;
@@ -262,8 +270,15 @@ do
   esac
 done
 
+. "$CONF_SH"
+
+./check_conf.sh -c $CONF_SH
+if [[ $? -ne 0 ]]; then
+  exit 1
+fi
+
 # Create directory for the results if do not exist
-TIME=$(date +"%T-%d-%m-%Y")
+TIME=$(date +"%F-time-%H-%M-%S")
 
 OUT="${OUTPUT_PATH}_${TIME}"
 mkdir -p "${OUT}"
@@ -300,9 +315,9 @@ do
       # Set configuration
       if [ $SERDES ]
       then
-        ./update_conf.sh -b "${CUSTOM_BENCHMARK}"
+        ./update_conf.sh -b "${CUSTOM_BENCHMARK}" -c "${CONF_SH}"
       else
-        ./update_conf_th.sh -b "${CUSTOM_BENCHMARK}"
+        ./update_conf_th.sh -b "${CUSTOM_BENCHMARK}" -c "${CONF_SH}"
       fi
 
       setup_cgroup
@@ -351,9 +366,9 @@ do
       then
         if [ $RUN_TPCDS == "true" ]
         then
-          run_cgexec ./run_tpcds.sh "${RUN_DIR}" "${H1_SIZE[$j]}" "${benchmark}"
+          run_cgexec ./run_tpcds.sh "${RUN_DIR}" "${H1_SIZE[$j]}" "${benchmark}" "${CONF_SH}"
         else
-          run_cgexec ./custom_benchmarks.sh "${RUN_DIR}" "$SERDES"
+          run_cgexec ./custom_benchmarks.sh "${RUN_DIR}" "$SERDES" "${CONF_SH}"
         fi
       else
         # Run benchmark and save output to tmp_out.txt
@@ -388,7 +403,7 @@ do
       fi
 
       # Copy the confifuration to the directory with the results
-      cp ./conf.sh "${RUN_DIR}"/
+      cp $CONF_SH "${RUN_DIR}"/
 
       if [ $CUSTOM_BENCHMARK == "false" ]
       then

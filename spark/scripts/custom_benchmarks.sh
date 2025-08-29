@@ -1,9 +1,10 @@
 #!/usr/bin/env bash                                                             
 
-. ./conf.sh
-
 RUN_DIR=$1
 SERDES=$2
+CONF_FILE=$3
+
+. "${CONF_FILE}"
 
 function timestamp()                                                            
 {

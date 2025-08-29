@@ -14,7 +14,35 @@
 
 set -x
 
-. ./conf.sh
+CONF_FILE="./conf.sh"
+
+usage() {
+    echo
+    echo "Usage:"
+    echo "      $0 [options ...] [-c conf.sh]"
+    echo "Options:"
+    echo "      -c  Path to conf.sh file"
+    echo "      -h  Show usage"
+    echo
+    exit 1
+}
+
+while getopts ":c:h" opt
+do
+    case "${opt}" in
+        c)
+            CONF_FILE=${OPTARG}
+            ;;
+        h)
+            usage
+            ;;
+        *)
+            usage
+            ;;
+    esac
+done
+
+. "${CONF_FILE}"
 
 ##
 # Description:
