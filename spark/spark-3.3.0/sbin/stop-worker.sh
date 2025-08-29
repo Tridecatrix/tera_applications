@@ -42,3 +42,5 @@ else
     "${SPARK_HOME}/sbin"/spark-daemon.sh stop org.apache.spark.deploy.worker.Worker $(( $i + 1 ))
   done
 fi
+
+exit
