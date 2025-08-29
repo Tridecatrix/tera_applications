@@ -9,3 +9,4 @@ spark/scripts/log.out
 spark/spark-3.3.0/logs/*
 spark/spark-3.3.0/work/*
 giraph/Giraph_TeraHeap/
+tmp
