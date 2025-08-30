@@ -272,7 +272,7 @@ done
 
 . "$CONF_SH"
 
-./check_conf.sh -c $CONF_SH
+./check-conf.sh -c $CONF_SH
 if [[ $? -ne 0 ]]; then
   exit 1
 fi
