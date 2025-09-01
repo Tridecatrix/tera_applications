@@ -124,6 +124,7 @@ kill_back_process() {
   pkill -f "bash ./mem_usage.sh"
   pkill -f "bash ./serdes.sh"
   pkill -f "bash ./jstat.sh"
+  pkill -f "bash ./zram_usage.sh"
 }
 
 ##
@@ -221,6 +222,7 @@ gen_config_files() {
 kill_watch() {
   #pkill -f "watch -n 1"
   kill -9 "$(pgrep -f "mem_usage.sh")" >/dev/null 2>&1
+  kill -9 "$(pgrep -f "zram_usage.sh")" >/dev/null 2>&1
 }
 
 # Check for the input arguments
@@ -275,6 +277,7 @@ done
 ./check-conf.sh -c $CONF_SH
 if [[ $? -ne 0 ]]; then
   exit 1
+  
 fi
 
 # Create directory for the results if do not exist
@@ -335,6 +338,9 @@ do
 
       # Monitor memory
       ./mem_usage.sh "${RUN_DIR}"/mem_usage.txt "${NUM_EXECUTORS}" &
+
+      # Monitor zram usage
+      ./zram_usage.sh "${RUN_DIR}"/zram_usage.txt "${NUM_EXECUTORS}" &
 
       if [ $PERF_TOOL ]
       then
@@ -426,6 +432,9 @@ do
       else
         ./parse_results.sh -d "${RUN_DIR}" -n "${NUM_EXECUTORS}" -s
       fi
+
+      # Parse compression results
+      ./parse_zram_results.sh ${RUN_DIR} ${DEV_H2} >> "${RUN_DIR}/zram.csv"
     done
   done
 
