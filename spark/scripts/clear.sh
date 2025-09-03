@@ -26,6 +26,11 @@ do
     esac
 done
 
+if [ -z $CONF_FILE ]; then
+    usage
+    exit 1
+fi
+
 . "${CONF_FILE}"
 
 # Clear H2 and Shuffle
