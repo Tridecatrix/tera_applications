@@ -61,9 +61,9 @@ SPARK_BENCH_DIR=${BENCH_DIR}/spark/spark-bench
 #Benchmark log
 BENCH_LOG=${BENCH_DIR}/spark/scripts/log.out
 # Heap size for executors '-Xms' is in GB e.g., 54 -> 54GB
-H1_SIZE=( 16 )
+H1_SIZE=( 64 )
 # cgset accepts K,M,G and eiB, MiB, GiB units for memory limit
-MEM_BUDGET=32G
+MEM_BUDGET=80G
 # Spark memory fraction: 'spark.memory.storagefraction'
 MEM_FRACTION=( 0.9 )
 # Storage Level
@@ -73,13 +73,13 @@ H1_H2_SIZE=( 1200 )
 # Running benchmarks
 BENCHMARKS=( 
     "ConnectedComponent"
-    "LinearRegression"  
+    # "LinearRegression"  
     "LogisticRegression"  
     "PageRank"
     "ShortestPaths"
     "SVDPlusPlus"
-    "SVM"
     "TriangleCount"
+    "SVM"
 )
 # Number of executors
 NUM_EXECUTORS=( 1 )
