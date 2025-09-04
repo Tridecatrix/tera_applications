@@ -1,5 +1,7 @@
 #!/usr/bin/env bash
 
+set -x
+
 ###################################################
 #
 # file: run.sh
@@ -11,8 +13,6 @@
 # Scrpt to run the experiments
 #
 ###################################################
-
-CONF_FILE="./conf.sh"
 
 usage() {
     echo
@@ -39,6 +39,11 @@ do
             ;;
     esac
 done
+
+if [[ -z $CONF_FILE ]]; then
+  usage
+  exit 1
+fi
 
 . "${CONF_FILE}"
 
@@ -88,7 +93,7 @@ setup_cgroup
 
 cp ./configs/native/spark-defaults.conf "${SPARK_DIR}"/conf
 
-./update_conf.sh -b ${CUSTOM_BENCHMARK}
+./update_conf.sh -b ${CUSTOM_BENCHMARK} -c "${CONF_FILE}"
 
 start_spark
 
