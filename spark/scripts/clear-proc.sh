@@ -1,5 +1,9 @@
 #!/bin/bash
 
+# Author: Adnan Hasnat
+# Clears all processes run as part of a Spark run.
+# Useful for cleaning up if a Spark run is interrupted.
+
 # kill run scripts
 ps -u u7300623 -f | grep run.sh | awk '{print $2, $8}' | while read pid cmd; do
     if [[ $cmd -eq "grep" ]]; then

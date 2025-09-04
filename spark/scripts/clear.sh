@@ -1,5 +1,9 @@
 #!/bin/bash
 
+# Author: Adnan Hasnat
+# Clears all processes run as part of a Spark run, and clears H2/shuffle as indicated in provided conf file.
+# Useful for cleaning up if a Spark run is interrupted.
+
 usage() {
     echo
     echo "Usage:"
