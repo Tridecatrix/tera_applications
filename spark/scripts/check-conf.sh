@@ -88,7 +88,7 @@ check_mount_device "$MNT_H2" "$DEV_H2"
 # Check that only allowed directories exist on MNT_SHFL and MNT_H2
 check_mount_clean() {
     local mnt="$1"
-    local allowed=("SparkBench.*" "lost+found")
+    local allowed=("SparkBench.*" "lost\+found")
     local found_error=0
 
     for entry in "$mnt"/*; do
