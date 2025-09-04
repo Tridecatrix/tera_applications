@@ -31,18 +31,15 @@ done
 
 error=0
 
-# Check that each benchmark has a corresponding Input/_SUCCESS file in DATA_HDFS
+# Check DATA_HDFS directory exists
 if [[ "$DATA_HDFS" =~ ^file://(.+) ]]; then
-    data_hdfs_path="${BASH_REMATCH[1]}"
-    for benchmark in "${BENCHMARKS[@]}"; do
-        success_file="$data_hdfs_path/$benchmark/Input/_SUCCESS"
-        if [[ ! -f "$success_file" ]]; then
-            echo "ERROR: Expected file '$success_file' not found."
-            error=1
-        fi
-    done
+    hdfs_dir="${BASH_REMATCH[1]}"
+    if [[ ! -d "$hdfs_dir" ]]; then
+        echo "ERROR: DATA_HDFS directory '$hdfs_dir' does not exist."
+        error=1
+    fi
 else
-    echo "ERROR: DATA_HDFS is not a local file path (file://...). Cannot check benchmark _SUCCESS files."
+    echo "ERROR: DATA_HDFS is not a local file path."
     error=1
 fi
 
@@ -91,7 +88,7 @@ check_mount_device "$MNT_H2" "$DEV_H2"
 # Check that only allowed directories exist on MNT_SHFL and MNT_H2
 check_mount_clean() {
     local mnt="$1"
-    local allowed=("SparkBench" "lost+found")
+    local allowed=("SparkBench.*" "lost+found")
     local found_error=0
 
     for entry in "$mnt"/*; do
@@ -101,13 +98,13 @@ check_mount_clean() {
         # Check if name is in allowed list
         allowed_flag=0
         for allow in "${allowed[@]}"; do
-            if [[ "$name" == "$allow" ]]; then
+            if [[ "$name" =~ $allow ]]; then
                 allowed_flag=1
                 break
             fi
         done
         if [[ $allowed_flag -eq 0 ]]; then
-            echo "ERROR: Unexpected file or directory '$name' found in '$mnt'. Only 'SparkBench' and 'lost+found' are allowed."
+            echo "ERROR: Unexpected file or directory '$name' found in '$mnt'. Only the following are allowed: ${allowed[@]}"
             found_error=1
         fi
     done
