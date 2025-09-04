@@ -316,16 +316,25 @@ do
 
 
       # Set configuration
-      if [ $SERDES ]
+      if [[ "$TH" == "true" ]]
       then
-        ./update_conf.sh -b "${CUSTOM_BENCHMARK}" -c "${CONF_SH}"
-      else
         ./update_conf_th.sh -b "${CUSTOM_BENCHMARK}" -c "${CONF_SH}"
+      else
+        ./update_conf.sh -b "${CUSTOM_BENCHMARK}" -c "${CONF_SH}"
       fi
 
       setup_cgroup
+      if [ $? -ne 0 ]; then
+        echo "ERROR: Failed to setup cgroup"
+        exit 1
+      fi
 
       start_spark
+      if [ $? -ne 0 ]; then
+        echo "ERROR: Failed to start Spark"
+        delete_cgroup
+        exit 1
+      fi
 
       if [ -z "$JIT" ]
       then
