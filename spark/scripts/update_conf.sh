@@ -121,9 +121,11 @@ then
 
 	cd - > /dev/null || exit
 
-  # Copy configuration of the workload
-  cp "./configs/workloads/${DATA_SIZE}/${BENCHMARKS}/env.sh" \
-    "${SPARK_BENCH_DIR}/${BENCHMARKS}/conf"
+  for BENCH in ${BENCHMARKS[@]}; do
+    # Copy configuration of the workload
+    cp "./configs/workloads/${DATA_SIZE}/${BENCH}/env.sh" \
+      "${SPARK_BENCH_DIR}/${BENCH}/conf"
+  done
 
 	cd - > /dev/null || exit
 fi
