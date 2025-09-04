@@ -6,7 +6,7 @@
 
 # kill run scripts
 ps -u u7300623 -f | grep run.sh | awk '{print $2, $8}' | while read pid cmd; do
-    if [[ $cmd -eq "grep" ]]; then
+    if [[ $cmd == "grep" ]]; then
         continue; 
     fi
     echo "Killing run.sh process with PID $pid, CMD: $cmd"
@@ -17,7 +17,7 @@ done
 ./run.sh -k # kill background processes
 
 ps -u u7300623 -f | grep spark | awk '{print $2, $8}' | while read pid cmd; do
-    if [[ $cmd -eq "grep" ]]; then
+    if [[ $cmd == "grep" ]]; then
         continue;
     fi
     echo "Killing spark process with PID $pid, CMD: $cmd"
@@ -25,7 +25,7 @@ ps -u u7300623 -f | grep spark | awk '{print $2, $8}' | while read pid cmd; do
 done
 
 jps | awk '{print $1, $2}' | while read pid pname; do
-    if [[ $cmd -eq "jps" ]]; then
+    if [[ $pname == "Jps" ]]; then
         continue;
     fi
     echo "Killing java process with PID $pid, Name: $pname"
