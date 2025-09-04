@@ -31,15 +31,18 @@ done
 
 error=0
 
-# Check DATA_HDFS directory exists
+# Check that each benchmark has a corresponding Input/_SUCCESS file in DATA_HDFS
 if [[ "$DATA_HDFS" =~ ^file://(.+) ]]; then
-    hdfs_dir="${BASH_REMATCH[1]}"
-    if [[ ! -d "$hdfs_dir" ]]; then
-        echo "ERROR: DATA_HDFS directory '$hdfs_dir' does not exist."
-        error=1
-    fi
+    data_hdfs_path="${BASH_REMATCH[1]}"
+    for benchmark in "${BENCHMARKS[@]}"; do
+        success_file="$data_hdfs_path/$benchmark/Input/_SUCCESS"
+        if [[ ! -f "$success_file" ]]; then
+            echo "ERROR: Expected file '$success_file' not found."
+            error=1
+        fi
+    done
 else
-    echo "ERROR: DATA_HDFS is not a local file path."
+    echo "ERROR: DATA_HDFS is not a local file path (file://...). Cannot check benchmark _SUCCESS files."
     error=1
 fi
 
