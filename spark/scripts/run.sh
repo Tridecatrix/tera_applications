@@ -157,7 +157,7 @@ cleanWorkDirs() {
 #   $1 - Iteration
 ##
 printMsgIteration() {
-    echo -n "$1 "
+    echo "      ITERATION: $1"
 }
 
 ##
@@ -185,7 +185,6 @@ printStartMsg() {
   echo "EXPERIMENTS"
   echo
   echo "      WORKLOAD : $1"
-  echo -n "      ITERATION: "
 }
 
 ##
@@ -277,12 +276,23 @@ run_with_timeout() {
 #   Cleanup function for timeout scenarios
 ##
 cleanup_on_timeout() {
-  echo "Cleaning up due to timeout..."
   kill_watch
+  if [ "$PERF_TOOL" ]; then
+    stop_perf
+  fi
   stop_spark
   delete_cgroup
   kill_back_process
-  echo "Cleanup completed"
+  ./system_util/stop_statistics.sh -d "${RUN_DIR}"
+
+  # Clear H2 and Shuffle
+  find "$MNT_H2" -mindepth 1 -maxdepth 1 \
+      \( -name 'SparkBench*' -o -name 'lost+found' \) -prune \
+      -o -exec echo "Removing: {}" \; -exec rm -r {} \;
+
+  find "$MNT_SHFL" -mindepth 1 -maxdepth 1 \
+      \( -name 'SparkBench*' -o -name 'lost+found' \) -prune \
+      -o -exec echo "Removing: {}" \; -exec rm -r {} \;
 }
 
 # Check for the input arguments
@@ -369,6 +379,8 @@ do
   # For every iteration
   for ((i=0; i<ITER; i++))
   do
+    printMsgIteration $(($i+1))
+    
     mkdir -p "${OUT}/${benchmark}/run${i}"
       
     # For every configuration
@@ -455,13 +467,11 @@ do
         benchmark_cmd="run_cgexec \"${SPARK_BENCH_DIR}/${benchmark}/bin/run.sh\""
       fi
       
-      echo "Starting benchmark with timeout of ${TIMEOUT_DURATION} seconds..."
       if run_with_timeout "$benchmark_cmd" "${RUN_DIR}/tmp_out.txt" "$TIMEOUT_DURATION"; then
         benchmark_end_time=$(date +%s)
         benchmark_duration=$((benchmark_end_time - benchmark_start_time))
-        echo "Benchmark completed successfully in ${benchmark_duration} seconds"
+        echo "Benchmark completed successfully"
       else
-        echo "Benchmark failed or timed out"
         echo "TIMEOUT_OCCURRED" > "${RUN_DIR}/timeout_flag.txt"
         cleanup_on_timeout
         continue  # Skip to next configuration
