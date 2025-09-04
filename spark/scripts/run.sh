@@ -18,6 +18,7 @@ CONF_SH="./conf.sh"
 #### Global Variables ####
 CUSTOM_BENCHMARK=false
 RUN_TPCDS=false
+TIMEOUT_DURATION=3600  # Default 1 hour timeout
 
 # Print error/usage script message
 usage() {
@@ -28,6 +29,7 @@ usage() {
   echo "Options:"
   echo "      -n  Number of Runs"
   echo "      -o  Output Path"
+  echo "      -T  Timeout duration in seconds (default: 3600)"
   echo "      -t  Enable TeraHeap"
   echo "      -s  Enable serialization/deserialization"
   echo "      -p  Enable perf tool"
@@ -64,7 +66,8 @@ build_async_profiler() {
 #   Create a cgroup
 setup_cgroup() {
 	# Change user/group IDs to your own
-	sudo cgcreate -a u7300623:sudo -t u7300623:sudo -g memory:memlim
+	local current_user=$(whoami)
+	sudo cgcreate -a "${current_user}:sudo" -t "${current_user}:sudo" -g memory:memlim
 	# cgset -r memory.limit_in_bytes="$MEM_BUDGET" memlim
   cgset -r memory.max="$MEM_BUDGET" memlim
   sudo chmod o+w /sys/fs/cgroup/cgroup.procs
@@ -225,8 +228,65 @@ kill_watch() {
   kill -9 "$(pgrep -f "zram_usage.sh")" >/dev/null 2>&1
 }
 
+##
+# Description: 
+#   Run benchmark with timeout
+#
+# Arguments:
+#   $1 - Command to run
+#   $2 - Output file
+#   $3 - Timeout duration
+##
+run_with_timeout() {
+  local cmd="$1"
+  local output_file="$2"
+  local timeout_duration="$3"
+  
+  # Start the command in background
+  eval "$cmd" > "$output_file" 2>&1 &
+  local cmd_pid=$!
+  
+  # Start timeout monitor in background
+  (
+    sleep "$timeout_duration"
+    if kill -0 "$cmd_pid" 2>/dev/null; then
+      echo "TIMEOUT: Command exceeded $timeout_duration seconds, killing process $cmd_pid"
+      kill -TERM "$cmd_pid" 2>/dev/null
+      sleep 5
+      kill -KILL "$cmd_pid" 2>/dev/null
+    fi
+  ) &
+  local timeout_pid=$!
+  
+  # Wait for command to complete
+  if wait "$cmd_pid"; then
+    # Command completed successfully, kill timeout monitor
+    kill "$timeout_pid" 2>/dev/null
+    return 0
+  else
+    local exit_code=$?
+    # Command failed or was killed, clean up timeout monitor
+    kill "$timeout_pid" 2>/dev/null
+    echo "Command failed or timed out with exit code: $exit_code"
+    return $exit_code
+  fi
+}
+
+##
+# Description:
+#   Cleanup function for timeout scenarios
+##
+cleanup_on_timeout() {
+  echo "Cleaning up due to timeout..."
+  kill_watch
+  stop_spark
+  delete_cgroup
+  kill_back_process
+  echo "Cleanup completed"
+}
+
 # Check for the input arguments
-while getopts ":c:n:o:ktspjfbqh" opt
+while getopts ":c:n:o:T:ktspjfbqh" opt
 do
   case "${opt}" in
     c)
@@ -237,6 +297,9 @@ do
       ;;
     o)
       OUTPUT_PATH=${OPTARG}
+      ;;
+    T)
+      TIMEOUT_DURATION=${OPTARG}
       ;;
     k)
       kill_back_process
@@ -377,21 +440,34 @@ do
       # System statistics start
       ./system_util/start_statistics.sh -d "${RUN_DIR}"
 
+      # Run benchmark with timeout
+      benchmark_start_time=$(date +%s)
       if [ $CUSTOM_BENCHMARK == "true" ]
       then
         if [ $RUN_TPCDS == "true" ]
         then
-          run_cgexec ./run_tpcds.sh "${RUN_DIR}" "${H1_SIZE[$j]}" "${benchmark}" "${CONF_SH}"
+          benchmark_cmd="run_cgexec ./run_tpcds.sh \"${RUN_DIR}\" \"${H1_SIZE[$j]}\" \"${benchmark}\" \"${CONF_SH}\""
         else
-          run_cgexec ./custom_benchmarks.sh "${RUN_DIR}" "$SERDES" "${CONF_SH}"
+          benchmark_cmd="run_cgexec ./custom_benchmarks.sh \"${RUN_DIR}\" \"$SERDES\" \"${CONF_SH}\""
         fi
       else
         # Run benchmark and save output to tmp_out.txt
-        run_cgexec "${SPARK_BENCH_DIR}"/"${benchmark}"/bin/run.sh > "${RUN_DIR}"/tmp_out.txt 2>&1
-        #"${SPARK_BENCH_DIR}"/"${benchmark}"/bin/run.sh > "${RUN_DIR}"/tmp_out.txt 2>&1
+        benchmark_cmd="run_cgexec \"${SPARK_BENCH_DIR}/${benchmark}/bin/run.sh\""
+      fi
+      
+      echo "Starting benchmark with timeout of ${TIMEOUT_DURATION} seconds..."
+      if run_with_timeout "$benchmark_cmd" "${RUN_DIR}/tmp_out.txt" "$TIMEOUT_DURATION"; then
+        benchmark_end_time=$(date +%s)
+        benchmark_duration=$((benchmark_end_time - benchmark_start_time))
+        echo "Benchmark completed successfully in ${benchmark_duration} seconds"
+      else
+        echo "Benchmark failed or timed out"
+        echo "TIMEOUT_OCCURRED" > "${RUN_DIR}/timeout_flag.txt"
+        cleanup_on_timeout
+        continue  # Skip to next configuration
       fi
 
-      # Kil watch process
+      # Kill watch process
       kill_watch
 
       if [[ ${DEV_FMAP} == *pmem* ]]
