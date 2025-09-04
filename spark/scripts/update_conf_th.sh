@@ -1,7 +1,5 @@
 #!/usr/bin/env bash
 
-set -x
-
 ###################################################
 #
 # file: update_conf_tc.sh
