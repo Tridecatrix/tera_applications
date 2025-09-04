@@ -33,6 +33,6 @@ avg_compr=$(echo "$compr_total / $count / 1048576" | bc -l)
 avg_ratio=$(echo "$data_total / $compr_total" | bc -l)
 
 # Output as CSV: avg_data_size(MiB),avg_compr_size(MiB),avg_compr_ratio
-echo "DATA_SIZE,$avg_data"
-echo "COMPR_SIZE,$avg_compr"
+echo "DATA_SIZE_MB,$avg_data"
+echo "COMPR_SIZE_MB,$avg_compr"
 echo "RATIO,$avg_ratio"
