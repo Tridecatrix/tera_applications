@@ -503,7 +503,7 @@ do
       fi
 
       # Copy the confifuration to the directory with the results
-      cp $CONF_SH "${RUN_DIR}"/
+      cp $CONF_SH "${RUN_DIR}"/conf.sh
 
       if [ $CUSTOM_BENCHMARK == "false" ]
       then
