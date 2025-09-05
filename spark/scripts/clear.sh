@@ -39,11 +39,11 @@ fi
 
 # Clear H2 and Shuffle
 find "$MNT_H2" -mindepth 1 -maxdepth 1 \
-    \( -name 'SparkBench*' -o -name 'lost+found' \) -prune \
-    -o -exec echo "Removing: {}" \; -exec rm -r {} \;
+    ! -name "SparkBench*" ! -name "lost+found" \
+    -exec echo "Removing: {}" \; -exec rm -r {} \;
 
-find "$MNT_SHFL" -mindepth 1 -maxdepth 1 \
-    \( -name 'SparkBench*' -o -name 'lost+found' \) -prune \
-    -o -exec echo "Removing: {}" \; -exec rm -r {} \;
+  find "$MNT_SHFL" -mindepth 1 -maxdepth 1 \
+    ! -name "SparkBench*" ! -name "lost+found" \
+    -exec echo "Removing: {}" \; -exec rm -r {} \;
 
 ./clear-proc.sh

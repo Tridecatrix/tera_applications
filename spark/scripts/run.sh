@@ -285,14 +285,13 @@ cleanup_on_timeout() {
   kill_back_process
   ./system_util/stop_statistics.sh -d "${RUN_DIR}"
 
-  # Clear H2 and Shuffle
   find "$MNT_H2" -mindepth 1 -maxdepth 1 \
-      \( -name 'SparkBench*' -o -name 'lost+found' \) -prune \
-      -o -exec echo "Removing: {}" \; -exec rm -r {} \;
+    ! -name "SparkBench*" ! -name "lost+found" \
+    -exec echo "Removing: {}" \; -exec rm -r {} \;
 
   find "$MNT_SHFL" -mindepth 1 -maxdepth 1 \
-      \( -name 'SparkBench*' -o -name 'lost+found' \) -prune \
-      -o -exec echo "Removing: {}" \; -exec rm -r {} \;
+    ! -name "SparkBench*" ! -name "lost+found" \
+    -exec echo "Removing: {}" \; -exec rm -r {} \;
 }
 
 # Check for the input arguments
