@@ -8,7 +8,7 @@ master="raven3"
 MC_LIST="raven3"
 
 # Use these inputs for fileio
-DATA_HDFS=file:///mnt/ssd1/adnan/SparkBench
+DATA_HDFS=file:///mnt/ssd1/adnan/SparkBenchSmall
 
 # Local dataset optional
 DATASET_DIR="${DATA_HDFS}/dataset"
