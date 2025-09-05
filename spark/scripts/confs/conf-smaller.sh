@@ -13,13 +13,13 @@
 #
 ###################################################
 # Dataset size "small" and "large"
-DATA_SIZE=small
+DATA_SIZE=smaller
 # JAVA Home
 MY_JAVA_HOME="/home/users/u7300623/teraheap/jdk17u067/build/linux-x86_64-server-release/jdk"
 #MY_JAVA_HOME="/opt/carvguest/asplos23_ae/teraheap/jdk17u067/build/linux-x86_64-server-release/jdk"
 #MY_JAVA_HOME="/spare/kolokasis/nativeJVM/jdk17u/build/linux-x86_64-server-release/jdk"
 # Directory that contains datasets
-DATA_HDFS="file:///mnt/ssd1/adnan/SparkBenchSmall"
+DATA_HDFS="file:///mnt/ssd1/adnan/SparkBenchSmaller"
 # Spark Version
 SPARK_VERSION=3.3.0
 # Number of partitions
@@ -43,9 +43,9 @@ DEV_SHFL=nvme1n1
 # Mount point for shuffle directory
 MNT_SHFL=/mnt/ssd1/adnan
 # Device for H2
-DEV_H2=zram1
+DEV_H2=nvme0n1
 # Mount point for H2 TeraHeap directory
-MNT_H2=/mnt/zrammnt1-zstd
+MNT_H2=/mnt/ssd0/adnan
 # Card segment size for H2
 CARD_SIZE=$((8 * 1024))
 # Region size for H2
@@ -72,14 +72,8 @@ S_LEVEL=( "MEMORY_ONLY" )
 H1_H2_SIZE=( 1200 )
 # Running benchmarks
 BENCHMARKS=( 
-    "ConnectedComponent"
-    "LinearRegression"  
-    "LogisticRegression"  
-    "PageRank"
-    "ShortestPaths"
-    "SVDPlusPlus"
-    "TriangleCount"
     "SVM"
+    "LinearRegression"
 )
 # Number of executors
 NUM_EXECUTORS=( 1 )

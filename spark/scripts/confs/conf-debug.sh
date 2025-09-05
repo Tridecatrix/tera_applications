@@ -19,7 +19,7 @@ MY_JAVA_HOME="/home/users/u7300623/teraheap/jdk17u067/build/linux-x86_64-server-
 #MY_JAVA_HOME="/opt/carvguest/asplos23_ae/teraheap/jdk17u067/build/linux-x86_64-server-release/jdk"
 #MY_JAVA_HOME="/spare/kolokasis/nativeJVM/jdk17u/build/linux-x86_64-server-release/jdk"
 # Directory that contains datasets
-DATA_HDFS="file:///mnt/ssd1/adnan/SparkBench"
+DATA_HDFS="file:///mnt/ssd1/adnan/SparkBenchSmall"
 # Spark Version
 SPARK_VERSION=3.3.0
 # Number of partitions
@@ -43,9 +43,9 @@ DEV_SHFL=nvme1n1
 # Mount point for shuffle directory
 MNT_SHFL=/mnt/ssd1/adnan
 # Device for H2
-DEV_H2=nvme0n1
+DEV_H2=zram1
 # Mount point for H2 TeraHeap directory
-MNT_H2=/mnt/ssd0/adnan
+MNT_H2=/mnt/zrammnt1-zstd
 # Card segment size for H2
 CARD_SIZE=$((8 * 1024))
 # Region size for H2
@@ -53,7 +53,7 @@ REGION_SIZE=$((256 * 1024 * 1024))
 # Stripe size for H2
 STRIPE_SIZE=$(( REGION_SIZE / CARD_SIZE ))
 # TeraCache file size in GB e.g 800 -> 800GB
-H2_FILE_SZ=800
+H2_FILE_SZ=200
 # Executor cores
 EXEC_CORES=( 8 )
 # SparkBench directory
@@ -61,9 +61,9 @@ SPARK_BENCH_DIR=${BENCH_DIR}/spark/spark-bench
 #Benchmark log
 BENCH_LOG=${BENCH_DIR}/spark/scripts/log.out
 # Heap size for executors '-Xms' is in GB e.g., 54 -> 54GB
-H1_SIZE=( 16 )
+H1_SIZE=( 64 )
 # cgset accepts K,M,G and eiB, MiB, GiB units for memory limit
-MEM_BUDGET=32G
+MEM_BUDGET=80G
 # Spark memory fraction: 'spark.memory.storagefraction'
 MEM_FRACTION=( 0.9 )
 # Storage Level
@@ -72,14 +72,7 @@ S_LEVEL=( "MEMORY_ONLY" )
 H1_H2_SIZE=( 1200 )
 # Running benchmarks
 BENCHMARKS=( 
-    # "ConnectedComponent"
-    # "LinearRegression"  
-    # "LogisticRegression"  
     "PageRank"
-    "ShortestPaths"
-    # "SVDPlusPlus"
-    "SVM"
-    # "TriangleCount"
 )
 # Number of executors
 NUM_EXECUTORS=( 1 )

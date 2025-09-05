@@ -19,7 +19,7 @@ MY_JAVA_HOME="/home/users/u7300623/teraheap/jdk17u067/build/linux-x86_64-server-
 #MY_JAVA_HOME="/opt/carvguest/asplos23_ae/teraheap/jdk17u067/build/linux-x86_64-server-release/jdk"
 #MY_JAVA_HOME="/spare/kolokasis/nativeJVM/jdk17u/build/linux-x86_64-server-release/jdk"
 # Directory that contains datasets
-DATA_HDFS="file:///mnt/ssd1/adnan/SparkBench"
+DATA_HDFS="file:///mnt/ssd1/adnan/SparkBenchSmall"
 # Spark Version
 SPARK_VERSION=3.3.0
 # Number of partitions
@@ -73,7 +73,7 @@ H1_H2_SIZE=( 1200 )
 # Running benchmarks
 BENCHMARKS=( 
     "ConnectedComponent"
-    # "LinearRegression"  
+    "LinearRegression"  
     "LogisticRegression"  
     "PageRank"
     "ShortestPaths"
