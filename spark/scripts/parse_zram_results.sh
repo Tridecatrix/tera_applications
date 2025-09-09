@@ -18,6 +18,7 @@ BEGIN {
     first_data_bytes = 0
     startup_skipped = 0
     ratio_total = 0
+    ratio_sum_sq = 0
     max_data = 0
     max_compr = 0
     first_set = 0
@@ -64,9 +65,11 @@ $0 ~ dev {
     max_compr = (max_compr > compr_bytes) ? max_compr : compr_bytes
     count++
     
-    # Calculate ratio
+    # Calculate ratio and accumulate for standard deviation
     if (compr_bytes > 0) {
-        ratio_total += data_bytes / compr_bytes
+        ratio = data_bytes / compr_bytes
+        ratio_total += ratio
+        ratio_sum_sq += ratio * ratio
     }
 }
 
@@ -82,6 +85,14 @@ END {
     avg_compr = compr_total / count / 1048576
     avg_ratio = ratio_total / count
     
+    # Calculate standard deviation of compression ratio
+    if (count > 1) {
+        variance = (ratio_sum_sq - (ratio_total * ratio_total / count)) / (count - 1)
+        ratio_stddev = sqrt(variance)
+    } else {
+        ratio_stddev = 0
+    }
+    
     # Convert max values to MiB
     max_data_mb = max_data / 1048576
     max_compr_mb = max_compr / 1048576
@@ -91,6 +102,7 @@ END {
     printf "AVG_DATA_SIZE_MB,%.2f\n", avg_data
     printf "AVG_COMPR_SIZE_MB,%.2f\n", avg_compr
     printf "AVG_RATIO,%.2f\n", avg_ratio
+    printf "RATIO_STDDEV,%.4f\n", ratio_stddev
     printf "MAX_DATA_SIZE_MB,%.2f\n", max_data_mb
     printf "MAX_COMPR_SIZE_MB,%.2f\n", max_compr_mb
     printf "RATIO_AT_MAX_DATA_SIZE,%.2f\n", ratio_at_max
