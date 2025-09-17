@@ -63,7 +63,7 @@ BENCH_LOG=${BENCH_DIR}/spark/scripts/log.out
 # Heap size for executors '-Xms' is in GB e.g., 54 -> 54GB
 H1_SIZE=( 64 )
 # cgset accepts K,M,G and eiB, MiB, GiB units for memory limit
-MEM_BUDGET=80G
+MEM_BUDGET=66G
 # Spark memory fraction: 'spark.memory.storagefraction'
 MEM_FRACTION=( 0.9 )
 # Storage Level

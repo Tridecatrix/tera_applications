@@ -30,8 +30,13 @@ do
     esac
 done
 
-if [ -z $CONF_FILE ]; then
+if [[ -z $CONF_FILE ]]; then
     usage
+    exit 1
+fi
+
+if [[ ! -f $CONF_FILE ]]; then
+    echo "conf file $CONF_FILE does not exist"
     exit 1
 fi
 

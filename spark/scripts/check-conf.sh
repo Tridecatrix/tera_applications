@@ -7,9 +7,6 @@ usage() {
     exit 1
 }
 
-# Default conf.sh path
-CONF_SH="./conf.sh"
-
 # Parse arguments
 while getopts ":c:h" opt; do
     case "${opt}" in
@@ -24,6 +21,11 @@ while getopts ":c:h" opt; do
             ;;
     esac
 done
+
+if [[ -z $CONF_SH ]]; then
+    usage
+    exit 1
+fi
 
 # Source the specified conf.sh
 . "$CONF_SH"
