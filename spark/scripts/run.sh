@@ -388,6 +388,8 @@ do
       mkdir -p "${OUT}/${benchmark}/run${i}/conf${j}"
       RUN_DIR="${OUT}/${benchmark}/run${i}/conf${j}"
 
+      # Copy the confifuration to the directory with the results
+      cp $CONF_SH "${RUN_DIR}"/conf.sh
 
       # Set configuration
       if [[ "$TH" == "true" ]]
@@ -423,7 +425,7 @@ do
       ./mem_usage.sh "${RUN_DIR}"/mem_usage.txt "${NUM_EXECUTORS}" &
 
       # Monitor zram usage
-      ./zram_usage.sh "${RUN_DIR}"/zram_usage.txt "${NUM_EXECUTORS}" &
+      ./zram_usage.sh "${RUN_DIR}"/zram_usage.txt "${NUM_EXECUTORS}" "${DEV_H2}" &
 
       if [ $PERF_TOOL ]
       then
@@ -501,9 +503,6 @@ do
         # Parse cpu and disk statistics results
         ./system_util/extract-data.sh -r "${RUN_DIR}" -d "${DEV_H2}" -d "${DEV_SHFL}" >> "${BENCH_LOG}" 2>&1
       fi
-
-      # Copy the confifuration to the directory with the results
-      cp $CONF_SH "${RUN_DIR}"/conf.sh
 
       if [ $CUSTOM_BENCHMARK == "false" ]
       then
