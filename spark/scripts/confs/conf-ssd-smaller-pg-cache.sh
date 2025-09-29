@@ -43,9 +43,9 @@ DEV_SHFL=nvme1n1
 # Mount point for shuffle directory
 MNT_SHFL=/mnt/ssd1/adnan
 # Device for H2
-DEV_H2=zram1
+DEV_H2=nvme0n1
 # Mount point for H2 TeraHeap directory
-MNT_H2=/mnt/zrammnt1-zstd
+MNT_H2=/mnt/ssd0/adnan
 # Card segment size for H2
 CARD_SIZE=$((8 * 1024))
 # Region size for H2
@@ -73,13 +73,6 @@ H1_H2_SIZE=( 1200 )
 # Running benchmarks
 BENCHMARKS=( 
     "ConnectedComponent"
-    # "LinearRegression"  
-    # "LogisticRegression"  
-    # "PageRank"
-    # "ShortestPaths"
-    # "SVDPlusPlus"
-    # "TriangleCount"
-    # "SVM"
 )
 # Number of executors
 NUM_EXECUTORS=( 1 )
