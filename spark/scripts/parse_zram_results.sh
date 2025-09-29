@@ -10,7 +10,7 @@ if [[ -z "$RESULT_DIR" || -z "$DEV_H2" ]]; then
 fi
 
 # Single awk command to process all data
-awk -v dev="$DEV_H2" '
+awk '
 BEGIN {
     data_total = 0
     compr_total = 0
@@ -24,24 +24,10 @@ BEGIN {
     first_set = 0
 }
 
-# Only process lines containing the device
-$0 ~ dev {
-    # Get DATA and TOTAL columns (fields 4 and 6)
-    data = $4
-    compr = $6
-    
-    # Convert sizes to bytes (handles M and G suffixes)
-    if (match(data, /([0-9.]+)([MG])/, arr)) {
-        data_bytes = arr[1] * (arr[2] == "G" ? 1073741824 : 1048576)
-    } else {
-        data_bytes = data
-    }
-    
-    if (match(compr, /([0-9.]+)([MG])/, arr)) {
-        compr_bytes = arr[1] * (arr[2] == "G" ? 1073741824 : 1048576)
-    } else {
-        compr_bytes = compr
-    }
+$1 == "mmstat" {
+    # Get DATA and TOTAL columns (fields 2 and 3)
+    data_bytes = $2
+    compr_bytes = $3
     
     # Set first data value for startup baseline
     if (!first_set) {
@@ -75,7 +61,7 @@ $0 ~ dev {
 
 END {
     if (count == 0) {
-        print "No entries found for " dev " (or all entries were during startup time)"
+        print "No entries found (or all entries were during startup time)"
         print "Startup entries skipped: " startup_skipped
         exit 1
     }

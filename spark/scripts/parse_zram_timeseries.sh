@@ -12,50 +12,19 @@ if [[ -z "$RESULT_DIR" || -z "$DEV_H2" ]]; then
 fi
 
 # Single awk command to process all data and output timeseries
-awk -v dev="$DEV_H2" '
+awk '
 BEGIN {
     entry_count = 0
-    first_data_bytes = 0
-    startup_skipped = 0
-    first_set = 0
     
     # Print CSV header
     print "TimePoint,DataBytes,ComprBytes,Ratio"
 }
 
 # Only process lines containing the device
-$0 ~ dev {
-    # Get DATA and TOTAL columns (fields 4 and 6)
-    data = $4
-    compr = $6
-    
-    # Convert sizes to bytes (handles M and G suffixes)
-    if (match(data, /([0-9.]+)([MG])/, arr)) {
-        data_bytes = arr[1] * (arr[2] == "G" ? 1073741824 : 1048576)
-    } else {
-        data_bytes = data
-    }
-    
-    if (match(compr, /([0-9.]+)([MG])/, arr)) {
-        compr_bytes = arr[1] * (arr[2] == "G" ? 1073741824 : 1048576)
-    } else {
-        compr_bytes = compr
-    }
-    
-    # Set first data value for startup baseline
-    if (!first_set) {
-        first_data_bytes = data_bytes
-        first_set = 1
-    }
-    
-    # Skip startup entries (within 10% of initial value)
-    diff = (data_bytes > first_data_bytes) ? data_bytes - first_data_bytes : first_data_bytes - data_bytes
-    percent_diff = (diff / first_data_bytes) * 100
-    
-    if (percent_diff <= 10) {
-        startup_skipped++
-        next
-    }
+$1 == "mmstat" {
+    # Get DATA and TOTAL columns (fields 2 and 3)
+    data_bytes = $2
+    compr_bytes = $3
     
     # Calculate ratio
     if (compr_bytes > 0) {
@@ -71,12 +40,10 @@ $0 ~ dev {
 
 END {
     if (entry_count == 0) {
-        print "# No entries found for " dev " (or all entries were during startup time)" > "/dev/stderr"
-        print "# Startup entries skipped: " startup_skipped > "/dev/stderr"
+        print "# No entries found" > "/dev/stderr"
         exit 1
     }
     
     print "# Total entries: " entry_count > "/dev/stderr"
-    print "# Startup entries skipped: " startup_skipped > "/dev/stderr"
 }
 ' "$RESULT_DIR/zram_usage.txt"
