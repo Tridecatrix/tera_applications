@@ -2,10 +2,9 @@
 # filepath: c:\Users\adnan\Desktop\Work\2025\COMP4550_Honours\tera_applications\spark\scripts\parse_zram_results.sh
 
 RESULT_DIR=$1
-DEV_H2=$2
 
-if [[ -z "$RESULT_DIR" || -z "$DEV_H2" ]]; then
-    echo "Usage: $0 <result_directory> <dev_h2>"
+if [[ -z "$RESULT_DIR" ]]; then
+    echo "Usage: $0 <result_directory>"
     exit 1
 fi
 
