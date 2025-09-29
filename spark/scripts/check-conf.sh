@@ -33,6 +33,12 @@ fi
 
 error=0
 
+# Check that the swapper isn't enabled
+if [[ ! -z $(swapon) ]]; then
+    echo "ERROR: SWAPPER IS ENABLED"
+    error=1
+fi
+
 # Check DATA_HDFS directory exists
 if [[ "$DATA_HDFS" =~ ^file://(.+) ]]; then
     hdfs_dir="${BASH_REMATCH[1]}"
