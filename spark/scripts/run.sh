@@ -391,6 +391,9 @@ do
       # Copy the confifuration to the directory with the results
       cp $CONF_SH "${RUN_DIR}"/conf.sh
 
+      # Print teraheap compile time settings to a file in run dir
+      ./check-teraheap-ct-settings.sh > "${RUN_DIR}/teraheap-compile-time-settings.txt"
+
       # Set configuration
       if [[ "$TH" == "true" ]]
       then
