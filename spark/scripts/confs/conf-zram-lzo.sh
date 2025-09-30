@@ -72,14 +72,14 @@ S_LEVEL=( "MEMORY_ONLY" )
 H1_H2_SIZE=( 1200 )
 # Running benchmarks
 BENCHMARKS=( 
-    "ConnectedComponent"
-    # "LinearRegression"  
-    # "LogisticRegression"  
-    # "PageRank"
-    # "ShortestPaths"
-    # "SVDPlusPlus"
-    # "TriangleCount"
-    # "SVM"
+#    "ConnectedComponent"
+    "LinearRegression"  
+    "LogisticRegression"  
+    "PageRank"
+    "ShortestPaths"
+    "SVDPlusPlus"
+    "TriangleCount"
+    "SVM"
 )
 # Number of executors
 NUM_EXECUTORS=( 1 )
