@@ -525,6 +525,8 @@ do
         TH_METRICS=$(ls -td "${SPARK_DIR}"/work/* | head -n 1)
         cp "${TH_METRICS}"/0/teraHeap.txt "${RUN_DIR}"/
         ./parse_results.sh -d "${RUN_DIR}" -n "${NUM_EXECUTORS}" -t
+
+        ./parse_teraheap_stats.sh "${RUN_DIR}/teraHeap.txt"
       else
         ./parse_results.sh -d "${RUN_DIR}" -n "${NUM_EXECUTORS}" -s
       fi
