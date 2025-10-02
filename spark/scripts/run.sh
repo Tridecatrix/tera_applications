@@ -526,7 +526,7 @@ do
         cp "${TH_METRICS}"/0/teraHeap.txt "${RUN_DIR}"/
         ./parse_results.sh -d "${RUN_DIR}" -n "${NUM_EXECUTORS}" -t
 
-        ./parse_teraheap_stats.sh "${RUN_DIR}/teraHeap.txt"
+        ./parse_teraheap_stats.sh "${RUN_DIR}/teraHeap.txt" > "${RUN_DIR}/teraHeap.csv"
       else
         ./parse_results.sh -d "${RUN_DIR}" -n "${NUM_EXECUTORS}" -s
       fi
