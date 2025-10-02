@@ -1,0 +1,22 @@
+# Example parameter file for modify_config.py
+# Format: PARAMETER_NAME=new_value
+# Lines starting with # are comments
+# NOTE: Multi-line values are not supported in parameter files, use single-line format
+
+# Change dataset size to large
+DATA_SIZE=large
+
+# Increase H2 file size to 400GB
+H2_FILE_SZ=400
+
+# Use 4 executor cores
+EXEC_CORES=( 4 )
+
+# Run PageRank and LinearRegression benchmarks (single line format for parameter files)
+BENCHMARKS=( "PageRank" "LinearRegression" )
+
+# Set heap size to 32GB
+H1_SIZE=( 32 )
+
+# Increase memory budget
+MEM_BUDGET=40G
