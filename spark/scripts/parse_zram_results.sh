@@ -21,12 +21,22 @@ BEGIN {
     max_data = 0
     max_compr = 0
     first_set = 0
+    
+    # New variables for huge_pages and same_pages
+    huge_pages_total = 0
+    same_pages_total = 0
+    max_huge_pages = 0
+    max_same_pages = 0
+    huge_pages_at_max_data = 0
+    same_pages_at_max_data = 0
 }
 
 $1 == "mmstat" {
     # Get DATA and TOTAL columns (fields 2 and 3)
     data_bytes = $2
     compr_bytes = $3
+    same_pages = $6     # same_pages is field 6
+    huge_pages = $9     # huge_pages is field 9
     
     # Set first data value for startup baseline
     if (!first_set) {
@@ -46,8 +56,19 @@ $1 == "mmstat" {
     # Accumulate data
     data_total += data_bytes
     compr_total += compr_bytes
-    max_data = (max_data > data_bytes) ? max_data : data_bytes
-    max_compr = (max_compr > compr_bytes) ? max_compr : compr_bytes
+    huge_pages_total += huge_pages
+    same_pages_total += same_pages
+    
+    # Track maximums
+    if (data_bytes > max_data) {
+        max_data = data_bytes
+        max_compr = compr_bytes
+        huge_pages_at_max_data = huge_pages
+        same_pages_at_max_data = same_pages
+    }
+    max_huge_pages = (max_huge_pages > huge_pages) ? max_huge_pages : huge_pages
+    max_same_pages = (max_same_pages > same_pages) ? max_same_pages : same_pages
+    
     count++
     
     # Calculate ratio and accumulate for standard deviation
@@ -69,6 +90,14 @@ END {
     avg_data = data_total / count / 1048576
     avg_compr = compr_total / count / 1048576
     avg_ratio = ratio_total / count
+    avg_huge_pages = huge_pages_total / count
+    avg_same_pages = same_pages_total / count
+    
+    # Calculate average incompressible data (huge pages * page size)
+    # Standard page size is 4096 bytes (4 KiB)
+    page_size = 4096
+    avg_incompressible_bytes = avg_huge_pages * page_size
+    avg_incompressible_mb = avg_incompressible_bytes / 1048576
     
     # Calculate standard deviation of compression ratio
     if (count > 1) {
@@ -91,6 +120,13 @@ END {
     printf "MAX_DATA_SIZE_MB,%.2f\n", max_data_mb
     printf "MAX_COMPR_SIZE_MB,%.2f\n", max_compr_mb
     printf "RATIO_AT_MAX_DATA_SIZE,%.2f\n", ratio_at_max
+    printf "AVG_HUGE_PAGES,%.0f\n", avg_huge_pages
+    printf "HUGE_PAGES_AT_MAX_DATA_SIZE,%.0f\n", huge_pages_at_max_data
+    printf "MAX_HUGE_PAGES,%.0f\n", max_huge_pages
+    printf "AVG_SAME_PAGES,%.0f\n", avg_same_pages
+    printf "SAME_PAGES_AT_MAX_DATA_SIZE,%.0f\n", same_pages_at_max_data
+    printf "MAX_SAME_PAGES,%.0f\n", max_same_pages
+    printf "AVG_INCOMPRESSIBLE_DATA_MB,%.2f\n", avg_incompressible_mb
     printf "STARTUP_ENTRIES_SKIPPED,%d\n", startup_skipped
 }
 ' "$RESULT_DIR/zram_usage.txt"
