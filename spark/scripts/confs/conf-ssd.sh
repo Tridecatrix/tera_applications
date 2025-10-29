@@ -53,7 +53,7 @@ REGION_SIZE=$((256 * 1024 * 1024))
 # Stripe size for H2
 STRIPE_SIZE=$(( REGION_SIZE / CARD_SIZE ))
 # TeraCache file size in GB e.g 800 -> 800GB
-H2_FILE_SZ=200
+H2_FILE_SZ=800
 # Executor cores
 EXEC_CORES=( 8 )
 # SparkBench directory
@@ -61,9 +61,9 @@ SPARK_BENCH_DIR=${BENCH_DIR}/spark/spark-bench
 #Benchmark log
 BENCH_LOG=${BENCH_DIR}/spark/scripts/log.out
 # Heap size for executors '-Xms' is in GB e.g., 54 -> 54GB
-H1_SIZE=( 16 )
+H1_SIZE=( 72 )
 # cgset accepts K,M,G and eiB, MiB, GiB units for memory limit
-MEM_BUDGET=26G
+MEM_BUDGET=86G
 # Spark memory fraction: 'spark.memory.storagefraction'
 MEM_FRACTION=( 0.9 )
 # Storage Level
@@ -72,14 +72,7 @@ S_LEVEL=( "MEMORY_ONLY" )
 H1_H2_SIZE=( 1200 )
 # Running benchmarks
 BENCHMARKS=( 
-#    "ConnectedComponent"
-    "LinearRegression"  
-    "LogisticRegression"  
-    "PageRank"
-    "ShortestPaths"
     "SVDPlusPlus"
-    "TriangleCount"
-    "SVM"
 )
 # Number of executors
 NUM_EXECUTORS=( 1 )

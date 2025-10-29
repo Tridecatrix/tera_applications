@@ -15,6 +15,7 @@ H1_COMPACT=$(grep "H1_COMPACT" $THTXT | awk '{print $4}' | awk '{ sum += $1 } EN
 H2_COMPACT_PHASE=$(grep "H2_COMPACT_PHASE" $THTXT | awk '{print $4}' | awk '{ sum += $1 } END {printf "%.6f", sum/1000.0 }')
 H2_CLEAR_FWD_TABLE=$(grep "H2_CLEAR_FWD_TABLE" $THTXT | awk '{print $4}' | awk '{ sum += $1 } END {printf "%.6f", sum/1000.0 }')
 MALLOC=$(grep "MALLOC" $THTXT | awk '{print $4}' | awk '{ sum += $1 } END {printf "%.6f", sum/1000.0 }')
+TOTAL_OBJECTS_SIZE_GB=$(grep "TOTAL_OBJECTS_SIZE" $THTXT | tail -1 | awk -F= '{printf "%.6f", $2 * 8 / 1024.0 / 1024.0 / 1024.0 }')
 
 echo "H1_CT_TIME,${H1_CT_TIME}"
 echo "H2_CT_TIME,${H2_CT_TIME}"
@@ -29,3 +30,4 @@ echo "H1_COMPACT,${H1_COMPACT}"
 echo "H2_COMPACT_PHASE,${H2_COMPACT_PHASE}"
 echo "H2_CLEAR_FWD_TABLE,${H2_CLEAR_FWD_TABLE}"
 echo "MALLOC,${MALLOC}"
+echo "TOTAL_OBJECTS_SIZE_GB,${TOTAL_OBJECTS_SIZE_GB}"

@@ -1,0 +1,288 @@
+Force overwriting existing file 'confs/conf-ssd-8-10.sh'
+Successfully created 'confs/conf-ssd-8-10.sh'
+
+Changes made:
+--------------------------------------------------
+H1_SIZE:
+  Old: ( 16 )
+  New: 8
+  Line: 64
+
+MEM_BUDGET:
+  Old: 21G
+  New: 18G
+  Line: 66
+
+ERROR: Unexpected file or directory 'spark-0f7a4e22-9219-4c5f-b2c3-8831ae2f5c51' found in '/mnt/ssd1/adnan'. Only the following are allowed: SparkBench.* lost\+found
+One or more configuration checks failed.
+Force overwriting existing file 'confs/conf-ssd-8-8.sh'
+Successfully created 'confs/conf-ssd-8-8.sh'
+
+Changes made:
+--------------------------------------------------
+H1_SIZE:
+  Old: ( 16 )
+  New: 8
+  Line: 64
+
+MEM_BUDGET:
+  Old: 21G
+  New: 16G
+  Line: 66
+
+ERROR: Unexpected file or directory 'spark-0f7a4e22-9219-4c5f-b2c3-8831ae2f5c51' found in '/mnt/ssd1/adnan'. Only the following are allowed: SparkBench.* lost\+found
+One or more configuration checks failed.
+Force overwriting existing file 'confs/conf-ssd-8-6.sh'
+Successfully created 'confs/conf-ssd-8-6.sh'
+
+Changes made:
+--------------------------------------------------
+H1_SIZE:
+  Old: ( 16 )
+  New: 8
+  Line: 64
+
+MEM_BUDGET:
+  Old: 21G
+  New: 14G
+  Line: 66
+
+ERROR: Unexpected file or directory 'spark-0f7a4e22-9219-4c5f-b2c3-8831ae2f5c51' found in '/mnt/ssd1/adnan'. Only the following are allowed: SparkBench.* lost\+found
+One or more configuration checks failed.
+Force overwriting existing file 'confs/conf-ssd-4-10.sh'
+Successfully created 'confs/conf-ssd-4-10.sh'
+
+Changes made:
+--------------------------------------------------
+H1_SIZE:
+  Old: ( 16 )
+  New: 4
+  Line: 64
+
+MEM_BUDGET:
+  Old: 21G
+  New: 14G
+  Line: 66
+
+ERROR: Unexpected file or directory 'spark-0f7a4e22-9219-4c5f-b2c3-8831ae2f5c51' found in '/mnt/ssd1/adnan'. Only the following are allowed: SparkBench.* lost\+found
+One or more configuration checks failed.
+Force overwriting existing file 'confs/conf-ssd-4-8.sh'
+Successfully created 'confs/conf-ssd-4-8.sh'
+
+Changes made:
+--------------------------------------------------
+H1_SIZE:
+  Old: ( 16 )
+  New: 4
+  Line: 64
+
+MEM_BUDGET:
+  Old: 21G
+  New: 12G
+  Line: 66
+
+ERROR: Unexpected file or directory 'spark-0f7a4e22-9219-4c5f-b2c3-8831ae2f5c51' found in '/mnt/ssd1/adnan'. Only the following are allowed: SparkBench.* lost\+found
+One or more configuration checks failed.
+Force overwriting existing file 'confs/conf-ssd-4-6.sh'
+Successfully created 'confs/conf-ssd-4-6.sh'
+
+Changes made:
+--------------------------------------------------
+H1_SIZE:
+  Old: ( 16 )
+  New: 4
+  Line: 64
+
+MEM_BUDGET:
+  Old: 21G
+  New: 10G
+  Line: 66
+
+ERROR: Unexpected file or directory 'spark-0f7a4e22-9219-4c5f-b2c3-8831ae2f5c51' found in '/mnt/ssd1/adnan'. Only the following are allowed: SparkBench.* lost\+found
+One or more configuration checks failed.
+Force overwriting existing file 'confs/conf-ssd-8-10.sh'
+Successfully created 'confs/conf-ssd-8-10.sh'
+
+Changes made:
+--------------------------------------------------
+H1_SIZE:
+  Old: ( 16 )
+  New: 8
+  Line: 64
+
+MEM_BUDGET:
+  Old: 21G
+  New: 18G
+  Line: 66
+
+All configuration checks passed.
+
+=====================================================================
+
+EXPERIMENTS
+
+      WORKLOAD : LinearRegression
+      ITERATION: 1
+Benchmark completed successfully
+./run.sh: line 371: 3522538 Killed                  ./mem_usage.sh "${RUN_DIR}"/mem_usage.txt "${NUM_EXECUTORS}"
+
+
+    Benchmark Time Elapsed: 0h:6m:48s
+
+=====================================================================
+
+Force overwriting existing file 'confs/conf-ssd-8-8.sh'
+Successfully created 'confs/conf-ssd-8-8.sh'
+
+Changes made:
+--------------------------------------------------
+H1_SIZE:
+  Old: ( 16 )
+  New: 8
+  Line: 64
+
+MEM_BUDGET:
+  Old: 21G
+  New: 16G
+  Line: 66
+
+All configuration checks passed.
+
+=====================================================================
+
+EXPERIMENTS
+
+      WORKLOAD : LinearRegression
+      ITERATION: 1
+Benchmark completed successfully
+./run.sh: line 371: 3537891 Killed                  ./mem_usage.sh "${RUN_DIR}"/mem_usage.txt "${NUM_EXECUTORS}"
+
+
+    Benchmark Time Elapsed: 0h:6m:42s
+
+=====================================================================
+
+Force overwriting existing file 'confs/conf-ssd-8-6.sh'
+Successfully created 'confs/conf-ssd-8-6.sh'
+
+Changes made:
+--------------------------------------------------
+H1_SIZE:
+  Old: ( 16 )
+  New: 8
+  Line: 64
+
+MEM_BUDGET:
+  Old: 21G
+  New: 14G
+  Line: 66
+
+All configuration checks passed.
+
+=====================================================================
+
+EXPERIMENTS
+
+      WORKLOAD : LinearRegression
+      ITERATION: 1
+Benchmark completed successfully
+./run.sh: line 371: 3554137 Killed                  ./mem_usage.sh "${RUN_DIR}"/mem_usage.txt "${NUM_EXECUTORS}"
+
+
+    Benchmark Time Elapsed: 0h:6m:59s
+
+=====================================================================
+
+Force overwriting existing file 'confs/conf-ssd-4-10.sh'
+Successfully created 'confs/conf-ssd-4-10.sh'
+
+Changes made:
+--------------------------------------------------
+H1_SIZE:
+  Old: ( 16 )
+  New: 4
+  Line: 64
+
+MEM_BUDGET:
+  Old: 21G
+  New: 14G
+  Line: 66
+
+All configuration checks passed.
+
+=====================================================================
+
+EXPERIMENTS
+
+      WORKLOAD : LinearRegression
+      ITERATION: 1
+Benchmark completed successfully
+./run.sh: line 371: 3570672 Killed                  ./mem_usage.sh "${RUN_DIR}"/mem_usage.txt "${NUM_EXECUTORS}"
+
+
+    Benchmark Time Elapsed: 0h:6m:50s
+
+=====================================================================
+
+Force overwriting existing file 'confs/conf-ssd-4-8.sh'
+Successfully created 'confs/conf-ssd-4-8.sh'
+
+Changes made:
+--------------------------------------------------
+H1_SIZE:
+  Old: ( 16 )
+  New: 4
+  Line: 64
+
+MEM_BUDGET:
+  Old: 21G
+  New: 12G
+  Line: 66
+
+All configuration checks passed.
+
+=====================================================================
+
+EXPERIMENTS
+
+      WORKLOAD : LinearRegression
+      ITERATION: 1
+Benchmark completed successfully
+./run.sh: line 371: 3586188 Killed                  ./mem_usage.sh "${RUN_DIR}"/mem_usage.txt "${NUM_EXECUTORS}"
+
+
+    Benchmark Time Elapsed: 0h:7m:49s
+
+=====================================================================
+
+Force overwriting existing file 'confs/conf-ssd-4-6.sh'
+Successfully created 'confs/conf-ssd-4-6.sh'
+
+Changes made:
+--------------------------------------------------
+H1_SIZE:
+  Old: ( 16 )
+  New: 4
+  Line: 64
+
+MEM_BUDGET:
+  Old: 21G
+  New: 10G
+  Line: 66
+
+All configuration checks passed.
+
+=====================================================================
+
+EXPERIMENTS
+
+      WORKLOAD : LinearRegression
+      ITERATION: 1
+Benchmark completed successfully
+./run.sh: line 371: 3615895 Killed                  ./mem_usage.sh "${RUN_DIR}"/mem_usage.txt "${NUM_EXECUTORS}"
+
+
+    Benchmark Time Elapsed: 0h:7m:42s
+
+=====================================================================
+

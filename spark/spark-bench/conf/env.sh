@@ -8,7 +8,7 @@ master="raven3"
 MC_LIST="raven3"
 
 # Use these inputs for fileio
-DATA_HDFS=file:///mnt/ssd1/adnan/SparkBenchLarge
+DATA_HDFS=file:///mnt/ssd1/adnan/SparkBenchSmall
 
 # Local dataset optional
 DATASET_DIR="${DATA_HDFS}/dataset"
@@ -26,7 +26,7 @@ SPARK_RDD_COMPRESS=false
 #SPARK_IO_COMPRESSION_CODEC=lzf
 
 # Spark options in system.property or arguments of spark-submit 
-SPARK_EXECUTOR_MEMORY=1300g
+SPARK_EXECUTOR_MEMORY=1200g
 SPARK_EXECUTOR_INSTANCES=1
 SPARK_EXECUTOR_CORES=8
 

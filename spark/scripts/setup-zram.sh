@@ -6,7 +6,7 @@
 
 usage() {
   echo "Usage: ./setup-zram.sh [-s DEVICE_SIZE] [-m MEMORY_LIMIT] [-h]"
-  echo "Both values are in bytes; suffixes allowed" 
+  echo "Suffixes allowed for both of these values" 
 }
 
 while [[ "$1" =~ ^- && ! "$1" == "--" ]]; do case $1 in
