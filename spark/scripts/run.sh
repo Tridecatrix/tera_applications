@@ -532,7 +532,7 @@ do
       fi
 
       # Parse compression results
-      ./parse_zram_results.sh ${RUN_DIR} ${DEV_H2} >> "${RUN_DIR}/zram.csv"
+      ./parse_zram_results.sh ${RUN_DIR} 0 false 10 >> "${RUN_DIR}/zram.csv"
     done
   done
 
